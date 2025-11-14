@@ -1,16 +1,10 @@
-# Usa una imagen base de Python
-FROM python:3.11-alpine
+FROM nginx:alpine
 
-# Establece el directorio de trabajo
-WORKDIR /app
+# Copia todo el contenido del contexto de construcción al directorio de nginx
+COPY . /usr/share/nginx/html
 
-# Copia los archivos del proyecto
-COPY index.html .
-COPY styles.css .
-COPY script.js .
+# Expone el puerto 80 (puerto interno del contenedor)
+EXPOSE 80
 
-# Expone el puerto 8000
-EXPOSE 8000
-
-# Inicia un servidor HTTP simple de Python
-CMD ["python", "-m", "http.server", "8000", "--bind", "0.0.0.0"]
+# Ejecuta nginx en primer plano
+CMD ["nginx", "-g", "daemon off;"]
